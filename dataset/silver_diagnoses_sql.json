@@ -10,6 +10,33 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": []
+		"schema": [
+			{
+				"name": "diagnosis_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "admission_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "icd_code",
+				"type": "varchar"
+			},
+			{
+				"name": "diagnosis_description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "severity",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "silver",
+			"table": "diagnoses"
+		}
 	}
 }
