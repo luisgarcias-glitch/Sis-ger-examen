@@ -13,7 +13,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "bronze_admissions_sql",
+						"referenceName": "silver_admisions_sql",
 						"type": "DatasetReference"
 					},
 					"name": "source2"
@@ -53,12 +53,12 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
 				"source(output(",
-				"          admission_id as string,",
-				"          patient_id as string,",
-				"          admission_date as string,",
-				"          discharge_date as string,",
+				"          admission_id as integer,",
+				"          patient_id as integer,",
+				"          admission_date as date,",
+				"          discharge_date as date,",
 				"          department as string,",
-				"          attending_doctor_id as string",
+				"          attending_doctor_id as integer",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
