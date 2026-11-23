@@ -1,0 +1,33 @@
+{
+	"name": "gold_servicio_cargo_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "gold"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "servicio_cargo_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "tipo_cargo",
+				"type": "varchar"
+			},
+			{
+				"name": "estado_pago",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gold",
+			"table": "dim_servicio_cargo"
+		}
+	}
+}
