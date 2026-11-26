@@ -1,5 +1,5 @@
 {
-	"name": "df_hospital_admisiones",
+	"name": "df_gold_admisiones",
 	"properties": {
 		"folder": {
 			"name": "gold"
@@ -8,14 +8,71 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "silver_admisions_sql",
+						"type": "DatasetReference"
+					},
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_admisiones_sql",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1"
+				"source(output(",
+				"          admission_id as integer,",
+				"          patient_id as integer,",
+				"          department as string,",
+				"          admission_date as date,",
+				"          discharge_date as date,",
+				"          attending_doctor_id as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT admission_id, patient_id, department, admission_date, discharge_date, attending_doctor_id FROM silver.admissions',",
+				"     format: 'query') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          admision_key as long,",
+				"          admission_id_bk as integer,",
+				"          paciente_key as integer,",
+				"          departamento_key as integer,",
+				"          diagnostico_key as integer,",
+				"          fecha_ingreso_key as integer,",
+				"          fecha_alta_key as integer,",
+				"          medico_id as integer,",
+				"          dias_estancia as integer,",
+				"          conteo_admisiones as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'allErrors',",
+				"     transactionCommit: 'single',",
+				"     reportSuccessOnError: false,",
+				"     mapColumn(",
+				"          admission_id_bk = admission_id,",
+				"          paciente_key = patient_id,",
+				"          paciente_key = patient_id,",
+				"          departamento_key = department,",
+				"          fecha_ingreso_key = admission_date,",
+				"          fecha_alta_key = discharge_date,",
+				"          medico_id = attending_doctor_id",
+				"     )) ~> sink1"
 			]
 		}
 	}
